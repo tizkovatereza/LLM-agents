@@ -2,10 +2,6 @@ import openai
 import os
 from dotenv import load_dotenv # Importing function dotenv
 
-#Simple loop that prints user's input and never stops
-
-#
-
 
 # Set up OpenAI API key
 
@@ -19,13 +15,17 @@ load_dotenv()
 
 openai.api_key = os.environ["OPENAI_API_KEY"]
 
+#context = [{"role": "system", "content": "You are a helpful assistant."}, 
+            {"role": "user", "content": "Who won the world series in 2020?"}, #Few shot example
+            {"role": "assistant", "content": "The Los Angeles Dodgers won the World Series in 2020."},]
+
 # Define function to send user input to GPT-4 and get response
 
-while True:
+while True:             # Infinite loop
     user_input = input("Enter some text: ")
-    response = openai.ChatCompletion.create(       # response is a dictionary
+    response = openai.ChatCompletion.create(       # Response is a dictionary
         model="gpt-3.5-turbo",
-        messages=[
+        messages=[                                          # Messages is a list of dictionaries
             {"role": "system", "content": "You are a helpful assistant."}, 
             {"role": "user", "content": "Who won the world series in 2020?"}, #Few shot example
             {"role": "assistant", "content": "The Los Angeles Dodgers won the World Series in 2020."},
@@ -34,8 +34,14 @@ while True:
         ]
     )
 
+    context.append(user_input)
     choice = response["choices"][0]
-    content = choice["message"]["content"]
+    
+    #content = choice["message"]["content"]
+    # musis do messages parameteru toho OpenAI callu dat tu promennou context, co jsi vytvorial
+    # ted to nedavas nikam a musis tam davat i odpovedi od LLM
+    # a musis tam appendovat veci ve spravnem dictionary formatu, ted tam appendujes jen string
+    
 
 
     # print(response)
