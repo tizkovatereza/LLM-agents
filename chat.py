@@ -1,52 +1,67 @@
 import openai
 import os
-from dotenv import load_dotenv # Importing function dotenv
-
+from dotenv import load_dotenv
 
 # Set up OpenAI API key
-
-#Loading env variables from .env file
 load_dotenv()
-
-
-#HERE WILL BE THE MESSAGES VARIABLE, AND THE LOOP THAT WILL APPEND NEW MESSAGES TO IT.
-
-
 
 openai.api_key = os.environ["OPENAI_API_KEY"]
 
-#context = [{"role": "system", "content": "You are a helpful assistant."}, 
-            {"role": "user", "content": "Who won the world series in 2020?"}, #Few shot example
-            {"role": "assistant", "content": "The Los Angeles Dodgers won the World Series in 2020."},]
+# Initialize the messages variable with initial context
+messages = [
+    {"role": "system", "content": "You are a helpful assistant."}
+]
 
-# Define function to send user input to GPT-4 and get response
-
-while True:             # Infinite loop
+# Define function to send user input to GPT-4 and get response. Make it infinite loop with the condition "True."
+while True:
     user_input = input("Enter some text: ")
-    response = openai.ChatCompletion.create(       # Response is a dictionary
+
+    # Append user's message to the messages list
+    messages.append({"role": "user", "content": user_input})
+
+    # Send the messages list to the API. The "response" is something made by OpenAI that we don't see here. It contains "choices" list that we will use later in the code.
+    response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
-        messages=[                                          # Messages is a list of dictionaries
-            {"role": "system", "content": "You are a helpful assistant."}, 
-            {"role": "user", "content": "Who won the world series in 2020?"}, #Few shot example
-            {"role": "assistant", "content": "The Los Angeles Dodgers won the World Series in 2020."},
-
-            {"role": "user", "content": user_input}
-        ]
+        messages=messages  # Use the updated messages list
     )
+  
 
-    context.append(user_input)
+    #Pick a "choices" list from the response and then pick the first item from that list. 
     choice = response["choices"][0]
-    
-    #content = choice["message"]["content"]
-    # musis do messages parameteru toho OpenAI callu dat tu promennou context, co jsi vytvorial
-    # ted to nedavas nikam a musis tam davat i odpovedi od LLM
-    # a musis tam appendovat veci ve spravnem dictionary formatu, ted tam appendujes jen string
-    
+    content = choice["message"]["content"]
+
+    # Append also the model's response to the messages list.
+    messages.append({"role": "assistant", "content": content})
+
+    print(content)
 
 
-    # print(response)
-    print(content) # VALUES in a dictionary can be accessed by passing the associated KEY NAME in a dictionary[key] syntax
+ 
+ #Additional comments
+
+ #RESPONSE
+
+ #If I print(response), I see why exactly I had to pick "choices" list from response, and "content" from the first item of that list.
 
 
-
-#TBD: Append to the messages list of messages.
+ #{
+ # "id": "chatcmpl-82dWT50G2vwpXSIXwavYN3PJoWAfH",
+ # "object": "chat.completion",
+ # "created": 1695639273,
+ # "model": "gpt-3.5-turbo-0613",
+ # "choices": [
+ #   {
+ #     "index": 0,
+ #     "message": {
+ #       "role": "assistant",
+ #       "content": "Hello! How can I assist you today?"
+ #     },
+ #     "finish_reason": "stop"
+ #   }
+ # ],
+ # "usage": {
+ #   "prompt_tokens": 19,
+ #   "completion_tokens": 9,
+ #   "total_tokens": 28
+ # }
+#}
