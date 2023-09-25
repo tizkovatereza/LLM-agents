@@ -1,11 +1,10 @@
 # Chat-with-GPT4-in-terminal
 
 
-# Mini ChatGPT - Your Friendly AI Chatbot
+# Mini ChatGPT - An AI Chatbot
 
-![Mini ChatGPT](https://i.imgur.com/your_chatbot_image.png)
 
-Welcome to Mini ChatGPT, your personal AI chatbot! This simple Python program allows you to have interactive conversations with the OpenAI GPT-3.5 model. It's like having a digital friend who's always ready to chat, albeit not the smartest one around. 
+Welcome to Mini ChatGPT, your personal AI chatbot! This simple Python program allows you to have interactive conversations with the OpenAI GPT-4 model. It's like having a digital friend who's always ready to chat, albeit not the smartest one around. 
 
 ## Table of Contents
 
