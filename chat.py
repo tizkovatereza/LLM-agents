@@ -7,10 +7,29 @@ load_dotenv()
 
 openai.api_key = os.environ["OPENAI_API_KEY"]
 
+
+
 # Initialize the messages variable with initial context
 messages = [
     {"role": "system", "content": "You are a helpful assistant."}
 ]
+#functions = [
+#    {
+#        "name": "get_current_weather",
+#        "description": "Get the current weather in a given location",
+#        "parameters": {
+#            "type": "object",
+#            "properties": {
+#                "location": {
+#                    "type": "string",
+#                    "description": "The city and state, e.g. San Francisco, CA",
+#                },
+#                "unit": {"type": "string", "enum": ["celsius", "fahrenheit"]},
+#            },
+#            "required": ["location"],
+#        },
+#    }
+#    ]
 
 # Define function to send user input to GPT-4 and get response. Make it infinite loop with the condition "True."
 while True:
@@ -20,9 +39,13 @@ while True:
     messages.append({"role": "user", "content": user_input})
 
     # Send the messages list to the API. The "response" is something made by OpenAI that we don't see here. It contains "choices" list that we will use later in the code.
+    #This is example of OpenAI API call:
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
-        messages=messages  # Use the updated messages list
+        messages=messages,  # Use the updated messages list
+#        functions=functions,
+#        function_call="auto",  # auto is default, but we'll be explicit
+        
     )
   
 
@@ -34,6 +57,7 @@ while True:
     messages.append({"role": "assistant", "content": content})
 
     print(content)
+
 
 
  
@@ -65,3 +89,13 @@ while True:
  #   "total_tokens": 28
  # }
 #}
+
+
+# MAKING THE CHATBOT WRITE CODE
+
+# I need the "content" to be in a form of code.
+
+
+
+#TBD: Make the chatbot write code.
+
