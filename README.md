@@ -1,9 +1,5 @@
 # Chat-with-GPT4-in-terminal
 
-
-# Mini ChatGPT - An AI Chatbot
-
-
 Welcome to Mini ChatGPT, your personal AI chatbot! This simple Python program allows you to have interactive conversations with the OpenAI GPT-4 model. It's like having a digital friend who's always ready to chat, albeit not the smartest one around. 
 
 ## Table of Contents
