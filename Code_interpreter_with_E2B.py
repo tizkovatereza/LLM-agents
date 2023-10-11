@@ -15,6 +15,8 @@ import json
 
 load_dotenv()
 
+# def of session variable
+session: e2b.Session
 
 #############################################################################################################################################
 
@@ -80,52 +82,53 @@ async def install_package(package: str):
   return out.stdout, out.stderr
 
 async def parse_gpt_response(response):
-message = response["choices"][0]["message"]
-if (func := message.get("function_call")):
-  func_name = func["name"]
-
-  # Get rid of newlines and leading/trailing spaces in the raw function arguments JSON string.
-  # This sometimes help to avoid JSON parsing errors.
-  args = func["arguments"].strip().replace("\n", "")
-  # Parse the cleaned up JSON string.
-  func_args = json.loads(args)
-
-  # If the model is calling the exec_code function we defined in the `functions` variable, we want to save the `code` argument to a variable.
-  if func_name == "exec_code":
-    code = func_args["code"]
-  # EXECUTE THE CODE USING E2B
-    stdout, stderr = await run_code(code) 
-    print(stdout) 
-    print(stderr) 
-  elif func_name == "install_package": 
-    package_name = func_args["name"] 
-    stdout, stderr = await install_package(package_name) 
-    print(stdout) 
-    print(stderr) 
-  else:
-    # The model didn't call a function, so we just print the message.
-    content = message["content"]
-    print(content)
+  message = response["choices"][0]["message"]
+  if (func := message.get("function_call")):
+    func_name = func["name"]
+  
+    # Get rid of newlines and leading/trailing spaces in the raw function arguments JSON string.
+    # This sometimes help to avoid JSON parsing errors.
+    args = func["arguments"].strip().replace("\n", "")
+    # Parse the cleaned up JSON string.
+    func_args = json.loads(args)
+  
+    # If the model is calling the exec_code function we defined in the `functions` variable, we want to save the `code` argument to a variable.
+    if func_name == "exec_code":
+      code = func_args["code"]
+    # EXECUTE THE CODE USING E2B
+      stdout, stderr = await run_code(code) 
+      print(stdout) 
+      print(stderr) 
+    elif func_name == "install_package": 
+      package_name = func_args["name"] 
+      stdout, stderr = await install_package(package_name) 
+      print(stdout) 
+      print(stderr) 
+    else:
+      # The model didn't call a function, so we just print the message.
+      content = message["content"]
+      print(content)
 
 #############################################################################################################################################
 
 # MAKE CALLS TO GPT
 
-session = await e2b.Session.create(id="Node") 
+
 
 async def main():
-response = openai.ChatCompletion.create(
-  model="gpt-4",
-  messages=[
-      {"role": "system", "content": "You are a senior developer that can code in JavaScript. Always produce valid JSON."},
-      {"role": "user", "content": "Write hello world"}, # $HighlightLine
-      {"role": "assistant", "content": "print(\"hello world\")", "name":"exec_code"}, # $HighlightLine
-      {"role": "user", "content": "Generate first 100 fibonacci numbers"}, # $HighlightLine
-  ],
-  functions=functions, # $HighlightLine
-)
-
-await parse_gpt_response(response)
+  session = await e2b.Session.create(id="Node") 
+  response = openai.ChatCompletion.create(
+    model="gpt-4",
+    messages=[
+        {"role": "system", "content": "You are a senior developer that can code in JavaScript. Always produce valid JSON."},
+        {"role": "user", "content": "Write hello world"}, # $HighlightLine
+        {"role": "assistant", "content": "print(\"hello world\")", "name":"exec_code"}, # $HighlightLine
+        {"role": "user", "content": "Generate first 100 fibonacci numbers"}, # $HighlightLine
+    ],
+    functions=functions, # $HighlightLine
+  )
+  
+  await parse_gpt_response(response)
 
 
 asyncio.run(main())
