@@ -86,6 +86,8 @@ else:
 
 # MAKE CALLS TO GPT
 
+session = await e2b.Session.create(id="Node") 
+
 async def main():
 response = openai.ChatCompletion.create(
   model="gpt-4",
