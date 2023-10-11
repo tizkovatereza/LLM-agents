@@ -75,6 +75,8 @@ if (func := message.get("function_call")):
   stdout, stderr = await e2b.run_code("Node16", code) 
   print(stdout) 
   print(stderr) 
+elif func_name == "install_package": 
+  package_name = func_args["name"] 
 else:
   # The model didn't call a function, so we just print the message.
   content = message["content"]
