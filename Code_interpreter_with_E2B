@@ -36,6 +36,20 @@ functions = [
       },
   }
 ]
+ { 
+      "name": "install_package", 
+      "description": "Installs the passed npm package.", 
+      "parameters": { 
+          "type": "object", 
+          "properties": { 
+              "name": { 
+                  "type": "string", 
+                  "description": "The name of an npm package to install.", 
+              }, 
+          }, 
+          "required": ["name"], 
+      }, 
+  } 
 
 
 #############################################################################################################################################
