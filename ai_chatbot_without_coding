@@ -23,4 +23,4 @@ while True:
     content = choice["message"]["content"]
     messages.append({"role": "assistant", "content": content})
 
-    print(content)
+    print(content))

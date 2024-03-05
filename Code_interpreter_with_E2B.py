@@ -7,7 +7,9 @@
 # IMPORT PACKAGES
 
 import e2b
-import openai
+from openai import OpenAI
+
+client = OpenAI()
 
 # We'll need these later
 import asyncio
@@ -82,7 +84,7 @@ async def install_package(package: str):
   return out.stdout, out.stderr
 
 async def parse_gpt_response(response):
-  message = response["choices"][0]["message"]
+  message = response.choices[0].message
   if (func := message.get("function_call")):
     func_name = func["name"]
   
@@ -117,16 +119,14 @@ async def parse_gpt_response(response):
 
 async def main():
   session = await e2b.Session.create(id="Node") 
-  response = openai.ChatCompletion.create(
-    model="gpt-4",
-    messages=[
-        {"role": "system", "content": "You are a senior developer that can code in JavaScript. Always produce valid JSON."},
-        {"role": "user", "content": "Write hello world"}, # $HighlightLine
-        {"role": "assistant", "content": "print(\"hello world\")", "name":"exec_code"}, # $HighlightLine
-        {"role": "user", "content": "Generate first 100 fibonacci numbers"}, # $HighlightLine
-    ],
-    functions=functions, # $HighlightLine
-  )
+  response = client.chat.completions.create(model="gpt-4",
+  messages=[
+      {"role": "system", "content": "You are a senior developer that can code in JavaScript. Always produce valid JSON."},
+      {"role": "user", "content": "Write hello world"}, # $HighlightLine
+      {"role": "assistant", "content": "print(\"hello world\")", "name":"exec_code"}, # $HighlightLine
+      {"role": "user", "content": "Generate first 100 fibonacci numbers"}, # $HighlightLine
+  ],
+  functions=functions)
   
   await parse_gpt_response(response)
 
