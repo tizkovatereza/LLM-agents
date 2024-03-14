@@ -1,12 +1,6 @@
-import express from 'express';
-import { json } from 'express';
-import express, { Express } from 'express';
-import { json } from 'express';
-import express, { Express } from 'express';
-import { json } from 'express';
+import express, { json } from 'express';
 
-
-const app: Express = express();
+const app = express();
 const port = 3000;
 
 // Middleware to parse JSON bodies
