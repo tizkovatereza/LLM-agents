@@ -1,10 +1,14 @@
 "use strict";
-const express = require('express');
-const { json } = require('express');
-const app = express();
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const express_2 = require("express");
+const app = (0, express_1.default)();
 const port = 3000;
 // Middleware to parse JSON bodies
-app.use(json());
+app.use((0, express_2.json)());
 // Endpoint to handle form submissions
 app.post('/api/submit', (req, res) => {
     const userInput = req.body.userInput;
@@ -12,7 +16,7 @@ app.post('/api/submit', (req, res) => {
     res.json({ message: `Thank you for your input: ${userInput}` });
 });
 // Serve static files (HTML, CSS, JS)
-app.use(express.static('public'));
+app.use(express_1.default.static('public'));
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
 });
