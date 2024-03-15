@@ -10,6 +10,10 @@
      {
        "src": "/(.*)",
        "dest": "/dist/app.js"
+     },
+     {
+       "src": "/",
+       "dest": "/public/index.html"
      }
   ]
  }
