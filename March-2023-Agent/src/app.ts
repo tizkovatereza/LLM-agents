@@ -2,7 +2,6 @@ import express, { Request, Response } from 'express';
 import { json } from 'express';
 
 const app = express();
-const port = 3000;
 
 // Middleware to parse JSON bodies
 app.use(json());
@@ -17,6 +16,5 @@ app.post('/api/submit', (req: Request, res: Response) => {
 // Serve static files (HTML, CSS, JS)
 app.use(express.static('public'));
 
-app.listen(port, () => {
-    console.log(`Server running at http://localhost:${port}`);
-});
+// Export the Express application
+export default app;
