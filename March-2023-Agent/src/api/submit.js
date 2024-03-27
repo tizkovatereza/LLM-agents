@@ -6,7 +6,8 @@ function handler(req, res) {
         // Assuming the request body contains a 'userInput' field
         var userInput = req.body.userInput;
         console.log("Received input: ".concat(userInput));
-        res.status(200).json({ message: "Thank you for your input: ".concat(userInput) });
+        // Respond with "Hello friend"
+        res.status(200).json({ message: 'Hello friend' });
     }
     else {
         // Handle any other HTTP method
