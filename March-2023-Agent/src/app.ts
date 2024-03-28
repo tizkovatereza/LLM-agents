@@ -1,13 +1,14 @@
-import express from 'express';
-import { Request, Response } from 'express';
+const express = require('express');
+const { json } = require('express');
 
 const app = express();
+const port = 3000;
 
 // Middleware to parse JSON bodies
-app.use(express.json());
+app.use(json());
 
 // Endpoint to handle form submissions
-app.post('/api/submit', (req: Request, res: Response) => {
+app.post('/api/submit', (req, res) => {
     const userInput = req.body.userInput;
     console.log(`Received input: ${userInput}`);
     res.json({ message: `Thank you for your input: ${userInput}` });
@@ -16,5 +17,6 @@ app.post('/api/submit', (req: Request, res: Response) => {
 // Serve static files (HTML, CSS, JS)
 app.use(express.static('public'));
 
-// Export the Express application
-export default app;
+app.listen(port, () => {
+    console.log(`Server running at http://localhost:${port}`);
+});
