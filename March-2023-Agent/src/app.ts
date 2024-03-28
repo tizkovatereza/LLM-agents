@@ -1,5 +1,5 @@
-const express = require('express');
-const { json } = require('express');
+import express, { Request, Response } from 'express';
+import { json } from 'express';
 
 const app = express();
 const port = 3000;
@@ -8,7 +8,7 @@ const port = 3000;
 app.use(json());
 
 // Endpoint to handle form submissions
-app.post('/api/submit', (req, res) => {
+app.post('/api/submit', (req: Request, res: Response) => {
     const userInput = req.body.userInput;
     console.log(`Received input: ${userInput}`);
     res.json({ message: `Thank you for your input: ${userInput}` });
