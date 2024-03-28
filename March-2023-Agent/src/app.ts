@@ -1,10 +1,10 @@
-import express, { Request, Response } from 'express';
-import { json } from 'express';
+import express from 'express';
+import { Request, Response } from 'express';
 
 const app = express();
 
 // Middleware to parse JSON bodies
-app.use(json());
+app.use(express.json());
 
 // Endpoint to handle form submissions
 app.post('/api/submit', (req: Request, res: Response) => {
