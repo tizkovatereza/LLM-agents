@@ -1,5 +1,7 @@
+"use strict";
 // pages/api/submit.ts
-export default function handler(req, res) {
+Object.defineProperty(exports, "__esModule", { value: true });
+function handler(req, res) {
     if (req.method === 'POST') {
         const userInput = req.body.userInput;
         console.log(`Received input: ${userInput}`);
@@ -11,3 +13,4 @@ export default function handler(req, res) {
         res.status(405).end(`Method ${req.method} Not Allowed`);
     }
 }
+exports.default = handler;

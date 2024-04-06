@@ -8,7 +8,8 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     const userInput = req.body.userInput;
     console.log(`Received input: ${userInput}`);
 
-    res.status(200).json({ message: `Thank you for your input: ${userInput}` });
+    // Respond with "Hello friend"
+    res.status(200).json({ message: 'Hello friend' });
  } else {
     // Handle any other HTTP method
     res.setHeader('Allow', ['POST']);
